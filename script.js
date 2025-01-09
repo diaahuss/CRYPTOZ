@@ -9,6 +9,7 @@ const companyEmail = "diaahussein110@gmail.com"; // Company email
 
 const vouchers = {
   "CRYPTOZ50": 50,
+  "CRYPTOZ100": 100,
 };
 
 // Utility function to reset all input fields and states
@@ -92,54 +93,51 @@ document.getElementById('submit-reward-btn').addEventListener('click', () => {
   }
 
   if (confirm('Are you sure you want to submit the rewards?')) {
-    // Send email to the business
-    emailjs
-      .send(serviceID, templateIDBusiness, {
-        to_email: businessEmail,
-        wallet_address: walletAddress,
-        amount: `$${amount.toFixed(2)}`,
-      })
-      .then(() => {
-        console.log('Email to business sent successfully.');
-        alert('Email sent to the business successfully!');
-      })
-      .catch(error => {
-        console.error('Error sending email to business:', error);
-        alert('Failed to send email to the business. Please try again.');
-      });
+    // Sending email to business
+    emailjs.send(serviceID, templateIDBusiness, {
+      to_email: businessEmail,
+      wallet_address: walletAddress,
+      amount: `$${amount.toFixed(2)}`,
+    })
+    .then(() => {
+      console.log('Email to business sent successfully.');
+      alert('Email sent to the business successfully!');
+    })
+    .catch(error => {
+      console.error('Error sending email to business:', error);
+      alert('Failed to send email to the business. Please try again.');
+    });
 
-    // Send email to the company
-    emailjs
-      .send(serviceID, templateIDCompany, {
-        to_email: companyEmail,
-        wallet_address: walletAddress,
-        amount: `$${amount.toFixed(2)}`,
-        business_email: businessEmail,
-      })
-      .then(() => {
-        console.log('Email to company sent successfully.');
-        alert('Email sent to the company successfully!');
-      })
-      .catch(error => {
-        console.error('Error sending email to company:', error);
-        alert('Failed to send email to the company. Please try again.');
-      });
+    // Sending email to company
+    emailjs.send(serviceID, templateIDCompany, {
+      to_email: companyEmail,
+      wallet_address: walletAddress,
+      amount: `$${amount.toFixed(2)}`,
+      business_email: businessEmail,
+    })
+    .then(() => {
+      console.log('Email to company sent successfully.');
+      alert('Email sent to the company successfully!');
+    })
+    .catch(error => {
+      console.error('Error sending email to company:', error);
+      alert('Failed to send email to the company. Please try again.');
+    });
 
-    // Send email to the customer (confirmation)
-    emailjs
-      .send(serviceID, templateIDCustomer, {
-        to_email: document.getElementById('business-email').value, // Sending to business email or customer email
-        wallet_address: walletAddress,
-        amount: `$${amount.toFixed(2)}`,
-      })
-      .then(() => {
-        console.log('Confirmation email sent to customer successfully.');
-        alert('Confirmation email sent to the customer successfully!');
-      })
-      .catch(error => {
-        console.error('Error sending email to customer:', error);
-        alert('Failed to send confirmation email to customer. Please try again.');
-      });
+    // Sending confirmation email to customer
+    emailjs.send(serviceID, templateIDCustomer, {
+      to_email: businessEmail,
+      wallet_address: walletAddress,
+      amount: `$${amount.toFixed(2)}`,
+    })
+    .then(() => {
+      console.log('Confirmation email sent to customer successfully.');
+      alert('Confirmation email sent to the customer successfully!');
+    })
+    .catch(error => {
+      console.error('Error sending email to customer:', error);
+      alert('Failed to send confirmation email to customer. Please try again.');
+    });
 
     // Display transaction details
     resetFields();
